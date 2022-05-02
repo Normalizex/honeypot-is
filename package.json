@@ -1,0 +1,42 @@
+{
+  "name": "@normalizex/honeypot-is",
+  "version": "1.0.0",
+  "description": "library targeting of the honeypot.is API.",
+  "main": "dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "engines": {
+    "node": ">=11.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublish": "npm run build"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Normalizex/honeypot-is.git"
+  },
+  "homepage": "https://github.com/Normalizex/honeypot-is#readme",
+  "author": "Normalizex",
+  "license": "Apache-2.0",
+  "keywords": [
+    "web3",
+    "axios",
+    "honeypot",
+    "api",
+    "wrapper",
+    "defi",
+    "blockchain",
+    "https",
+    "async"
+  ],
+  "devDependencies": {
+    "typescript": "^4.6.4"
+  },
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
