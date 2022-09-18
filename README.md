@@ -1,6 +1,6 @@
 # heneypot-is
 
-* `Simple honeypot.is api v4 wrapper for node.js`
+* `Simple honeypot.is api v4 wrapper`
 * `Node.js >= v11.0.0`
 * `TypeScript >= 4.6.3`
 ***
@@ -13,10 +13,35 @@ Using yarn:
 ```console
 yarn add @normalizex/honeypot-is
 ```
+Using jsDelivr CDN:
+```html
+<script src="https://cdn.jsdelivr.net/npm/@normalizex/honeypot-is/dist/index.browser.min.js"></script>
+```
+Using unpkg CDN:
+```html
+<script src="https://unpkg.com/@normalizex/honeypot-is/dist/index.browser.min.js"></script>
+```
 ***
-# Usage:
+# Usage
+NodeJS (ES6):
 ```js
 import HoneypotScan, { HoneypotChains } from '@normalizex/honeypot-is';
+```
+NodeJS (commonjs)
+```js
+const { HoneypotScan, HoneypotChains } = require('@normalizex/honeypot-is');
+```
+```
+Browser:
+```html
+<script src="https://unpkg.com/@normalizex/honeypot-is/dist/index.browser.min.js"></script>
+<!-- OR -->
+<script src="https://cdn.jsdelivr.net/npm/@normalizex/honeypot-is/dist/index.browser.min.js"></script>
+
+<script type="text/javascript">
+console.log(HoneypotScan)//function
+console.log(HoneypotChains)//Object
+</script>
 ```
 # Example
 ```js

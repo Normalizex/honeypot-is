@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export enum HoneypotChains{
-	BinanceSmartChain = 'bsc2',
-	Ethereum = 'eth'
+export const HoneypotChains = {
+	BinanceSmartChain: 'bsc2',
+	Ethereum: 'eth'
 }
 
 interface HoneypotResponse {
@@ -16,7 +16,7 @@ interface HoneypotResponse {
 	SellGas: number
 }
 
-const HoneypotScan = async (tokenAddress: string, chain: 'bsc2' | 'eth' = 'bsc2') => axios.get<HoneypotResponse>('https://aywt3wreda.execute-api.eu-west-1.amazonaws.com/default/IsHoneypot', {
+export const HoneypotScan = async (tokenAddress: string, chain: 'bsc2' | 'eth' = 'bsc2') => axios.get<HoneypotResponse>('https://aywt3wreda.execute-api.eu-west-1.amazonaws.com/default/IsHoneypot', {
 	params: {
 		chain,
 		token: tokenAddress

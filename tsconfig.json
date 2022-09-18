@@ -1,18 +1,15 @@
 {
-	"include": ["src/**/*"],
 	"compilerOptions": {
-	  "target": "es2018",
-	  "module": "es2020",
+	  "target": "es5",
 	  "outDir": "dist",
 	  "sourceMap": true,
 	  "allowJs": true,
 	  "declaration": true,
+	  "allowSyntheticDefaultImports": true,
 	  "esModuleInterop": true,
 	  "moduleResolution": "node",
-	  "strict": true, 
-	  "lib": [
-		"es2018",
-		"DOM"
-	  ]
+	  "strict": true
 	},
-  }
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist"]
+}
