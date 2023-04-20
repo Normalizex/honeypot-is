@@ -1,8 +1,6 @@
-# heneypot-is
+# honeypot-is
 
-* `Simple honeypot.is api v4 wrapper`
-* `Node.js >= v11.0.0`
-* `TypeScript >= 4.6.3`
+* `Honeypot.is api wrapper`
 ***
 # Installing
 Using npm:
@@ -25,12 +23,11 @@ Using unpkg CDN:
 # Usage
 NodeJS (ES6):
 ```js
-import HoneypotScan, { HoneypotChains } from '@normalizex/honeypot-is';
+import { HoneypotIsV1 } from '@normalizex/honeypot-is';
 ```
 NodeJS (commonjs)
 ```js
-const { HoneypotScan, HoneypotChains } = require('@normalizex/honeypot-is');
-```
+const { HoneypotIsV1 } = require('@normalizex/honeypot-is');
 ```
 Browser:
 ```html
@@ -39,25 +36,32 @@ Browser:
 <script src="https://cdn.jsdelivr.net/npm/@normalizex/honeypot-is/dist/index.browser.min.js"></script>
 
 <script type="text/javascript">
-console.log(HoneypotScan)//function
-console.log(HoneypotChains)//Object
+	console.log(HoneypotIsV1)//function
 </script>
 ```
 # Example
 ```js
-import HoneypotScan, { HoneypotChains } from '@normalizex/honeypot-is';
+import { HoneypotIsV1 } from '@normalizex/honeypot-is';
+
+const CHAIN_ID = 56;
+const honeypotis = new HoneypotIsV1();
 
 const BUSD = '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56';
-HoneypotScan(BUSD, HoneypotChains.BinanceSmartChain).then(scan => {
+const BUSD_PAIRS = await honeypotis.getPairs(BUSD, CHAIN_ID);
+
+await honeypotis.honeypotScan(
+	BUSD, 
+	BUSD_PAIRS[0].Router, 
+	BUSD_PAIRS[0].Pair,
+	CHAIN_ID
+).then((result) => {
+	console.log(result)
 	/**
-		{
-			is_honeypot: false,
-			message: null,
-			max_tx_amount: 0,
-			max_tx_amount_bnb: 0,
-			sell: { tax: 0, gas: 117300 },
-			buy: { tax: 0, gas: 162526 }
-		} 
+		Token: {...},
+		WithToken: {...},
+		IsHoneypot: false,
+		Chain: {...},
+		...etc...
 	*/
 });
 
@@ -65,23 +69,22 @@ HoneypotScan(BUSD, HoneypotChains.BinanceSmartChain).then(scan => {
  * SCAM TOKEN! Honeypot!
 */
 const ITM = '0x64c37c3d6b5ff0fdea26eec0c8b6de487105291c'//SCAM!
-HoneypotScan(ITM, HoneypotChains.BinanceSmartChain).then(scan => {
+const ITM_PAIRS = await honeypotis.getPairs(ITM, CHAIN_ID);
+
+await honeypotis.honeypotScan(
+	ITM, 
+	ITM_PAIRS[0].Router, 
+	ITM_PAIRS[0].Pair,
+	CHAIN_ID
+).then((result) => {
+	console.log(result)
 	/**
-		{
-			is_honeypot: true,
-			message: 'execution reverted: PancakeLibrary: INSUFFICIENT_INPUT_AMOUNT',
-			max_tx_amount: 0,
-			max_tx_amount_bnb: 0,
-			sell: { tax: 0, gas: 0 },
-			buy: { tax: 0, gas: 0 }
-		}
+		Token: {...},
+		WithToken: {...},
+		IsHoneypot: true,
+		Error: "execution reverted: TransferHelper: TRANSFER_FROM_FAILED",
+		Chain: {...},
+		...etc...
 	*/
 });
 ```
-***
-# Donate
-Of course, the project was made not for any benefit, but for my personal convenience :)
-
-But I wanted to share this convenience with the Github community.
-
-You can send me any amount of any coins in the **ETH / BSC** network as a donation to the address: **`0x35552CF3Ce8Cc8a0f7fdC8Aa88a89b92e9Ab5FdB`**

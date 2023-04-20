@@ -1,40 +1,57 @@
 import axios from "axios";
+import {
+	PairInfo,
+	GetPairsResponse,
+	HoneypotScanResponse,
+	ContractVerificationResponse
+} from './types/RequestsV1.types';
 
-export const HoneypotChains = {
-	BinanceSmartChain: 'bsc2',
-	Ethereum: 'eth'
-}
+export class HoneypotIsV1 {
+	private endpoint = 'https://api.honeypot.is/v1';
+	private sub_endpoint = 'https://sapi.honeypot.is/v1'
 
-interface HoneypotResponse {
-	IsHoneypot: boolean,
-	Error: null | string
-	MaxTxAmount: number
-	MaxTxAmountBNB: number
-	BuyTax: number
-	SellTax: number
-	BuyGas: number
-	SellGas: number
-}
-
-export const HoneypotScan = async (tokenAddress: string, chain: 'bsc2' | 'eth' = 'bsc2') => axios.get<HoneypotResponse>('https://aywt3wreda.execute-api.eu-west-1.amazonaws.com/default/IsHoneypot', {
-	params: {
-		chain,
-		token: tokenAddress
-	}}).then(res => {
-		return {
-			is_honeypot: res.data.IsHoneypot,
-			message: res.data.Error,
-			max_tx_amount: res.data.MaxTxAmount,
-			max_tx_amount_bnb: res.data.MaxTxAmountBNB,
-			sell: {
-				tax: res.data.SellTax,
-				gas: res.data.SellGas
-			},
-			buy: {
-				tax: res.data.BuyTax,
-				gas: res.data.BuyGas
+	public getPairs = (tokenAddress: string, chainId: number | string) => 
+		axios.get<GetPairsResponse>(`${this.endpoint}/GetPairs`, {
+			params: {
+				chainID: chainId,
+				address: tokenAddress
 			}
-		}
-})
+		}).then((response) => response.data);
 
-export default HoneypotScan;
+	public honeypotScan = (
+		tokenAddress: string, 
+		router: string,
+		pair: string, 
+		chainId: number | string
+	) => 
+		axios.get<HoneypotScanResponse>(`${this.endpoint}/IsHoneypot`, {
+			params: {
+				pair,
+				router,
+				chainID: chainId,
+				address: tokenAddress
+			}
+		}).then((response) => response.data);
+
+	public getContractVerification = (
+		tokenAddress: string,
+		router: string,
+		pair: string,
+		chainId: string | number
+	) => 
+		axios.get<ContractVerificationResponse>(`${this.sub_endpoint}/GetContractVerification`, {
+			params: {
+				pair,
+				router,
+				chainID: chainId,
+				address: tokenAddress
+			}
+		}).then((response) => response.data);
+}
+
+export {
+	PairInfo,
+	GetPairsResponse,
+	HoneypotScanResponse,
+	ContractVerificationResponse
+}
